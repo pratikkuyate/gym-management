@@ -1,40 +1,150 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Gym Management Application
 
-## Getting Started
+This is a **Gym Management** application built with Next.js, Prisma, and NextAuth.js. It provides user authentication, member management, and dashboard functionalities to efficiently manage gym operations.
 
-First, run the development server:
+## Table of Contents
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Project Structure](#project-structure)
+- [Environment Variables](#environment-variables)
+- [Usage](#usage)
+- [Scripts](#scripts)
+- [Contributing](#contributing)
+- [License](#license)
 
+## Features
+
+### User Authentication
+- Sign Up and Login pages using **NextAuth.js**
+- Password encryption with **bcryptjs**
+
+### Member Management
+- Add, edit, and view member details
+- Dynamic routing for member profiles
+
+### Protected Routes
+- Access control for authenticated users
+
+### Responsive Design
+- Built with **Reactstrap** and **Bootstrap**
+
+### Database Integration
+- Uses **Prisma** ORM with a **PostgreSQL** database
+
+## Prerequisites
+- **Node.js** (version 14 or higher)
+- **npm** (version 6 or higher)
+- **PostgreSQL** database
+
+## Installation
+
+1. **Clone the repository**
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-username/gym-management.git
+cd gym-management
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Install dependencies**
+```bash
+npm install
+```
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+3. **Set up the database**
+   - Ensure you have a PostgreSQL database running
+   - Create a database for the application
+   - Update the `DATABASE_URL` in the .env file with your database connection string:
+   ```
+   DATABASE_URL="postgres://username:password@localhost:5432/gym-management"
+   ```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+4. **Run Prisma migrations**
+```bash
+npx prisma migrate dev --name init
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+5. **Generate Prisma client**
+```bash
+npx prisma generate
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+6. **Set up environment variables**
+   - Create a .env file in the root directory
+   - Add the required environment variables:
+   ```
+   DATABASE_URL="your-database-url"
+   NEXTAUTH_URL="http://localhost:3000"
+   NEXTAUTH_SECRET="your-nextauth-secret"
+   ```
+   - Replace `your-database-url` with your actual database URL
+   - Replace `your-nextauth-secret` with a secret key (you can generate one using `openssl rand -base64 32`)
 
-## Learn More
+## Project Structure
+```
+.
+├── .env
+├── .eslintrc.json
+├── .gitignore
+├── next.config.mjs
+├── package.json
+├── prisma
+│   ├── migrations
+│   └── schema.prisma
+├── public
+├── README.md
+├── src
+│   ├── components
+│   │   └── Layout
+│   │       ├── index.tsx
+│   │       └── NavBar.tsx
+│   ├── pages
+│   │   ├── _app.tsx
+│   │   ├── _document.tsx
+│   │   ├── api
+│   │   │   ├── auth
+│   │   │   │   └── [...nextauth].ts
+│   │   │   └── signup.tsx
+│   │   ├── dashboard.tsx
+│   │   ├── index.tsx
+│   │   ├── login.tsx
+│   │   ├── members
+│   │   │   ├── [mid].tsx
+│   │   │   └── add.tsx
+│   │   └── signup.tsx
+│   ├── styles
+│   │   ├── globals.css
+│   │   └── Home.module.css
+│   └── utils
+├── tsconfig.json
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Environment Variables
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The application relies on the following environment variables:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- `DATABASE_URL`: The connection string for your PostgreSQL database
+- `NEXTAUTH_URL`: The base URL of your application (e.g., `http://localhost:3000`)
+- `NEXTAUTH_SECRET`: A secret key for NextAuth.js (used to sign tokens)
 
-## Deploy on Vercel
+## Usage
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **Run the development server**
+```bash
+npm run dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+2. **Open the application**
+   - Navigate to http://localhost:3000 in your browser
+
+3. **Access the features**
+   - **Sign Up**: Create a new account at `/signup`
+   - **Login**: Log in with your credentials at `/login`
+   - **Dashboard**: Access the dashboard at `/dashboard` (available after login)
+   - **Manage Members**: Add or edit members at `/members`
+
+## Scripts
+
+- `npm run dev`: Runs the application in development mode
+- `npm run build`: Builds the application for production
+- `npm run start`: Starts the application in production mode
+- `npm run lint`: Runs ESLint to check for code linting issues
